@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyBuildStudio</title>
+    <meta
+      name="description"
+      content="SkyBuildStudio — 3D printing profiles, designs, and social links."
+    />
+    <link rel="canonical" href="https://skybuildstudio.com" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <!-- Theme color for mobile browser chrome -->
+    <meta
+      name="theme-color"
+      content="#111714"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#F1F1F1"
+      media="(prefers-color-scheme: light)"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="SkyBuildStudio" />
+    <meta
+      property="og:description"
+      content="My 3D World — 3D printing profiles, designs, and social links."
+    />
+    <meta
+      property="og:image"
+      content="https://skybuildstudio.com/og-image.png"
+    />
+    <meta property="og:url" content="https://skybuildstudio.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      /* ═══════════════════════════════════════════
+       DARK MODE (default)
+       ═══════════════════════════════════════════ */
+      :root {
+        --bg: #111714;
+        --text: #f1f1f1;
+        --text-secondary: #9a9689;
+        --champagne: #d9b68c;
+        --sand: #c8bfb1;
+        --deep-green: #4a5d4e;
+        --surface: rgba(241, 241, 241, 0.035);
+        --surface-hover: rgba(241, 241, 241, 0.065);
+        --border: rgba(200, 191, 177, 0.07);
+        --border-hover: rgba(217, 182, 140, 0.28);
+        --icon-bg: rgba(74, 93, 78, 0.22);
+        --icon-border: rgba(74, 93, 78, 0.12);
+        --icon-bg-hover: rgba(217, 182, 140, 0.1);
+        --icon-border-hover: rgba(217, 182, 140, 0.12);
+        --icon-color: #d9b68c;
+        --shadow-card:
+          0 10px 28px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(217, 182, 140, 0.04);
+        --shadow-soc: 0 6px 20px rgba(217, 182, 140, 0.08);
+        --glow-green: rgba(74, 93, 78, 0.18);
+        --glow-warm: rgba(217, 182, 140, 0.07);
+        --grain-opacity: 0.022;
+        --ring-segment: transparent;
+        --foot-logo-filter: brightness(0) saturate(100%) invert(80%) sepia(12%)
+          saturate(600%) hue-rotate(350deg) brightness(92%) contrast(88%);
+        --foot-logo-opacity: 0.25;
+        --selection-bg: rgba(217, 182, 140, 0.25);
+      }
+
+      /* ═══════════════════════════════════════════
+       LIGHT MODE
+       ═══════════════════════════════════════════ */
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f1f1f1;
+          --text: #4a5d4e;
+          --text-secondary: #7a8a7e;
+          --champagne: #d9b68c;
+          --sand: #c8bfb1;
+          --deep-green: #4a5d4e;
+          --surface: rgba(255, 255, 255, 0.7);
+          --surface-hover: rgba(255, 255, 255, 0.9);
+          --border: rgba(74, 93, 78, 0.1);
+          --border-hover: rgba(217, 182, 140, 0.5);
+          --icon-bg: rgba(74, 93, 78, 0.08);
+          --icon-border: rgba(74, 93, 78, 0.08);
+          --icon-bg-hover: rgba(217, 182, 140, 0.15);
+          --icon-border-hover: rgba(217, 182, 140, 0.2);
+          --icon-color: #4a5d4e;
+          --shadow-card:
+            0 4px 16px rgba(74, 93, 78, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+          --shadow-soc: 0 4px 12px rgba(74, 93, 78, 0.06);
+          --glow-green: rgba(74, 93, 78, 0.06);
+          --glow-warm: rgba(217, 182, 140, 0.08);
+          --grain-opacity: 0.015;
+          --ring-segment: transparent;
+          --foot-logo-filter: none;
+          --foot-logo-opacity: 0.18;
+          --selection-bg: rgba(74, 93, 78, 0.15);
+        }
+      }
+
+      /* ═══════════════════════════════════════════
+       BASE
+       ═══════════════════════════════════════════ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Outfit", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        justify-content: center;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.4s ease,
+          color 0.4s ease;
+      }
+
+      /* Grain */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: var(--grain-opacity);
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 200px;
+      }
+
+      /* Ambient lighting */
+      .glow {
+        position: fixed;
+        pointer-events: none;
+        z-index: 0;
+        border-radius: 50%;
+        transition: background 0.4s ease;
+      }
+      .glow--green {
+        top: -220px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 520px;
+        height: 520px;
+        background: radial-gradient(
+          circle,
+          var(--glow-green) 0%,
+          transparent 70%
+        );
+      }
+      .glow--warm {
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(
+          circle,
+          var(--glow-warm) 0%,
+          transparent 70%
+        );
+      }
+
+      .page {
+        width: 100%;
+        max-width: 420px;
+        padding: 48px 22px 56px;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Profile ── */
+      .profile {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .avatar-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+        animation: enter 0.7s ease both;
+      }
+
+      .avatar-container::before {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        padding: 2.5px;
+        background: conic-gradient(
+          from 0deg,
+          var(--champagne),
+          var(--ring-segment) 20%,
+          var(--deep-green) 40%,
+          var(--ring-segment) 60%,
+          var(--champagne) 80%,
+          var(--ring-segment) 100%
+        );
+        -webkit-mask:
+          linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        animation: spin 10s linear infinite;
+      }
+
+      .avatar-container::after {
+        content: "";
+        position: absolute;
+        inset: -18px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--glow-warm) 30%,
+          transparent 70%
+        );
+        z-index: -1;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .avatar-container img {
+        width: 108px;
+        height: 108px;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+        position: relative;
+        z-index: 1;
+      }
+
+      .brand-name {
+        font-weight: 700;
+        font-size: 1.55rem;
+        letter-spacing: -0.03em;
+        margin-bottom: 5px;
+        animation: enter 0.7s ease 0.07s both;
+      }
+
+      .brand-tag {
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--champagne);
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        animation: enter 0.7s ease 0.13s both;
+      }
+
+      /* ── Social row ── */
+      .socials {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 22px 0 4px;
+        animation: enter 0.7s ease 0.19s both;
+      }
+
+      .soc {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-secondary);
+        font-size: 15px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .soc:hover {
+        background: var(--icon-bg-hover);
+        border-color: var(--border-hover);
+        color: var(--champagne);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-soc);
+      }
+
+      /* ── Dividers ── */
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 34px 0 12px;
+        padding-left: 2px;
+      }
+
+      .divider-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--champagne);
+        flex-shrink: 0;
+      }
+
+      .divider-label {
+        font-weight: 600;
+        font-size: 0.62rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+      }
+
+      .divider-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, var(--border), transparent 80%);
+      }
+
+      /* ── Cards ── */
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-decoration: none;
+        color: var(--text);
+        transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      .card:hover {
+        background: var(--surface-hover);
+        border-color: var(--border-hover);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-card);
+      }
+
+      .card-ic {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: var(--icon-bg);
+        border: 1px solid var(--icon-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 14px;
+        color: var(--icon-color);
+        transition: all 0.3s ease;
+      }
+
+      .card:hover .card-ic {
+        background: var(--icon-bg-hover);
+        border-color: var(--icon-border-hover);
+      }
+
+      .card-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: -0.01em;
+        flex: 1;
+      }
+
+      .card-arr {
+        font-size: 11px;
+        color: var(--text-secondary);
+        opacity: 0;
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+        transform: translateX(-4px);
+      }
+
+      .card:hover .card-arr {
+        opacity: 0.65;
+        color: var(--champagne);
+        transform: translateX(0);
+      }
+
+      /* ── Footer ── */
+      .foot {
+        text-align: center;
+        margin-top: 42px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+      }
+
+      .foot-logo {
+        width: 32px;
+        height: 32px;
+        margin-bottom: 8px;
+        opacity: var(--foot-logo-opacity);
+        filter: var(--foot-logo-filter);
+        transition: opacity 0.3s ease;
+      }
+
+      .foot span {
+        display: block;
+        font-size: 0.6rem;
+        font-weight: 400;
+        color: var(--text-secondary);
+        opacity: 0.35;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      /* ── Entrance ── */
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .divider:nth-of-type(1) {
+        animation: enter 0.5s ease 0.25s both;
+      }
+      .divider:nth-of-type(2) {
+        animation: enter 0.5s ease 0.64s both;
+      }
+
+      .cards:nth-of-type(1) .card:nth-child(1) {
+        animation: enter 0.45s ease 0.3s both;
+      }
+      .cards:nth-of-type(1) .card:nth-child(2) {
+        animation: enter 0.45s ease 0.35s both;
+      }
+      .cards:nth-of-type(1) .card:nth-child(3) {
+        animation: enter 0.45s ease 0.4s both;
+      }
+      .cards:nth-of-type(1) .card:nth-child(4) {
+        animation: enter 0.45s ease 0.45s both;
+      }
+      .cards:nth-of-type(1) .card:nth-child(5) {
+        animation: enter 0.45s ease 0.5s both;
+      }
+
+      .cards:nth-of-type(2) .card:nth-child(1) {
+        animation: enter 0.45s ease 0.69s both;
+      }
+      .cards:nth-of-type(2) .card:nth-child(2) {
+        animation: enter 0.45s ease 0.74s both;
+      }
+      .cards:nth-of-type(2) .card:nth-child(3) {
+        animation: enter 0.45s ease 0.79s both;
+      }
+
+      .foot {
+        animation: enter 0.5s ease 0.88s both;
+      }
+
+      @media (max-width: 480px) {
+        .page {
+          padding: 36px 16px 48px;
+        }
+        .brand-name {
+          font-size: 1.4rem;
+        }
+      }
+
+      ::selection {
+        background: var(--selection-bg);
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="glow glow--green"></div>
+    <div class="glow glow--warm"></div>
+
+    <div class="page">
+      <div class="profile">
+        <div class="avatar-container">
+          <img src="avatar.png" alt="SkyBuildStudio" />
+        </div>
+        <div class="brand-name">SkyBuildStudio</div>
+        <div class="brand-tag">My 3D World</div>
+      </div>
+
+      <div class="socials">
+        <a
+          class="soc"
+          href="https://www.instagram.com/skybuildstudio/"
+          aria-label="Instagram"
+          ><i class="fab fa-instagram"></i
+        ></a>
+        <a
+          class="soc"
+          href="https://www.youtube.com/@TheSkyBuildStudio"
+          aria-label="YouTube"
+          ><i class="fab fa-youtube"></i
+        ></a>
+        <a
+          class="soc"
+          href="https://www.tiktok.com/@skybuildstudio?lang=en"
+          aria-label="TikTok"
+          ><i class="fab fa-tiktok"></i
+        ></a>
+      </div>
+
+      <div class="divider">
+        <span class="divider-dot"></span>
+        <span class="divider-label">3D Print Profiles</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <div class="cards">
+        <a class="card" href="https://makerworld.com/en/@Sundeep4sandy/upload">
+          <div class="card-ic"><i class="fas fa-globe"></i></div>
+          <div class="card-name">MakerWorld</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a
+          class="card"
+          href="https://www.printables.com/@Sundeep4sky_4350691/models"
+        >
+          <div class="card-ic"><i class="fas fa-print"></i></div>
+          <div class="card-name">Printables</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a
+          class="card"
+          href="https://www.thingiverse.com/Sundeep4sandy/designs"
+        >
+          <div class="card-ic"><i class="fas fa-shapes"></i></div>
+          <div class="card-name">Thingiverse</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a class="card" href="https://thangs.com/designer/skybuildstudio">
+          <div class="card-ic"><i class="fas fa-cube"></i></div>
+          <div class="card-name">Thangs</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a
+          class="card"
+          href="https://www.crealitycloud.com/user-profile/9323965651/models"
+        >
+          <div class="card-ic"><i class="fas fa-cloud"></i></div>
+          <div class="card-name">Creality Cloud</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div class="divider">
+        <span class="divider-dot"></span>
+        <span class="divider-label">Social</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <div class="cards">
+        <a class="card" href="https://www.instagram.com/skybuildstudio/">
+          <div class="card-ic"><i class="fab fa-instagram"></i></div>
+          <div class="card-name">Instagram</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a class="card" href="https://www.youtube.com/@TheSkyBuildStudio">
+          <div class="card-ic"><i class="fab fa-youtube"></i></div>
+          <div class="card-name">YouTube</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+        <a class="card" href="https://www.tiktok.com/@skybuildstudio?lang=en">
+          <div class="card-ic"><i class="fab fa-tiktok"></i></div>
+          <div class="card-name">TikTok</div>
+          <span class="card-arr"><i class="fas fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div class="foot">
+        <img class="foot-logo" src="logo.svg" alt="SkyBuildStudio" />
+        <span>skybuildstudio.com</span>
+      </div>
+    </div>
+  </body>
+</html>
